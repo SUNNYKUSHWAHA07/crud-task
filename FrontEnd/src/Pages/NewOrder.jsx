@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { MdCancel } from "react-icons/md";
 
 async function createOrder(orderData) {
-  const res = await fetch("http://localhost:3000/orders", {
+  const res = await fetch("https://crud-task-15do.onrender.com/orders", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(orderData),

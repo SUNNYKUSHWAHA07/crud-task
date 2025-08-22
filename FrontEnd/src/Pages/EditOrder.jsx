@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 // API call for updating order
 async function updateOrder(order) {
-  const res = await fetch(`http://localhost:3000/orders/${order.id}`, {
+  const res = await fetch(`https://crud-task-15do.onrender.com/orders/${order.id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(order),

@@ -4,13 +4,13 @@ import NewOrder from './NewOrder';
 import EditOrder from './EditOrder';
 
 async function fetchOrders() {
-  const res = await fetch('http://localhost:3000/orders');
+  const res = await fetch('https://crud-task-15do.onrender.com/orders');
   if (!res.ok) throw new Error('Failed to fetch orders');
   return res.json();
 }
 
 async function deleteOrderApi(id) {
-  const res = await fetch(`http://localhost:3000/orders/${id}`, { method: 'DELETE' });
+  const res = await fetch(`https://crud-task-15do.onrender.com/orders/${id}`, { method: 'DELETE' });
   if (!res.ok) throw new Error('Failed to delete order');
   return res.json();
 }
