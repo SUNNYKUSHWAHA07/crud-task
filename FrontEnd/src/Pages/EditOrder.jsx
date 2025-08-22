@@ -17,7 +17,7 @@ const EditOrder = ({ order, visible, onClose }) => {
 
   const [formData, setFormData] = useState({
     customerName: '',
-    productName: '',
+    productName: "",
     quantity: 1,
     price: '',
     id: '',
@@ -28,7 +28,7 @@ const EditOrder = ({ order, visible, onClose }) => {
     if (order) {
       setFormData({
         customerName: order.customerName || '',
-        productName: order.productName || '',
+        productName: order.product || '',
         quantity: order.quantity || 1,
         price: order.price || '',
         id: order.id || order._id,
@@ -71,7 +71,7 @@ const EditOrder = ({ order, visible, onClose }) => {
         <h2 className="text-2xl md:text-3xl font-semibold mb-6 text-white text-center md:text-left">Edit Order</h2>
 
         <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
-          {['customerName', 'productName'].map((field) => (
+          {['customerName', 'product'].map((field) => (
             <Fragment key={field}>
               <label htmlFor={field} className="text-sm md:text-base font-medium text-white capitalize">
                 {field.replace(/([A-Z])/g, ' $1')}:
