@@ -20,7 +20,6 @@ const EditOrder = ({ order, visible, onClose }) => {
     productName: '',
     quantity: 1,
     price: '',
-    deliveryDate: '',
     id: '',
   });
 
@@ -32,7 +31,6 @@ const EditOrder = ({ order, visible, onClose }) => {
         productName: order.productName || '',
         quantity: order.quantity || 1,
         price: order.price || '',
-        deliveryDate: order.deliveryDate || '',
         id: order.id || order._id,
       });
     }

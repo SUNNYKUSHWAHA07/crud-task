@@ -92,7 +92,7 @@ const AllOrders = () => {
                   <p className=" sm:w-1/4">{order.customerName}</p>
                   <p className="font-semibold  sm:w-1/4 capitalize">{order.product}</p>
                   <p className="sm:w-1/4 px-4">{order.quantity}</p>
-                  <p className="sm:w-1/4">₹ {order.price.toFixed(2)}</p>
+                  <p className="sm:w-1/4">₹ {(order.price.toFixed(2) * order.quantity)}</p>
                   <div className="flex gap-2   sm:gap-3 mt-2 sm:mt-0 sm:w-1/4 justify-start sm:justify-end">
                     <button
                       onClick={() => handleEditClick(order)}
