@@ -4,21 +4,22 @@
   "description": "",
   "main": "Backend/index.js",
   "scripts": {
-   
     "dev": "nodemon Backend/index.js",
     "build": "npm install && npm install --prefix FrontEnd && npm run build --prefix FrontEnd",
-     "start": "nodemon Backend/index.js"
+    "start": "nodemon Backend/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "cloudinary": "^2.7.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
     "mongodb": "^6.18.0",
-    "mongoose": "^8.17.2"
+    "mongoose": "^8.17.2",
+    "multer": "^2.0.2"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",

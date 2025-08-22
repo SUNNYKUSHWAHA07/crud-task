@@ -77,11 +77,12 @@ const AllOrders = () => {
             <ul className="divide-y divide-gray-200 flex flex-col gap-3">
               {/* Table Header */}
               <div className="hidden sm:flex justify-between text-gray-400 font-semibold mb-2 px-2">
-                <p className="w-1/4">Customer</p>
-                <p className="w-1/4">Product</p>
-                <p className="w-1/4">Quantity</p>
-                <p className="w-1/4">Price</p>
-                <p className="w-1/4">Actions</p>
+                <p className="w-1/5">Image</p>
+                <p className="w-1/5">Customer</p>
+                <p className="w-1/5">Product</p>
+                <p className="w-1/5">Quantity</p>
+                <p className="w-1/5">Price</p>
+                <p className="w-1/5">Actions</p>
               </div>
 
               {orders.map((order) => (
@@ -89,11 +90,15 @@ const AllOrders = () => {
                   key={order._id}
                   className="flex font-semibold capitalize text-zinc-500 flex-col sm:flex-row sm:justify-between sm:items-center p-3 sm:p-2  bg-opacity-30 rounded-lg"
                 >
-                  <p className=" sm:w-1/4">{order.customerName}</p>
-                  <p className="font-semibold  sm:w-1/4 capitalize">{order.product}</p>
-                  <p className="sm:w-1/4 px-4">{order.quantity}</p>
-                  <p className="sm:w-1/4">₹ {(order.price.toFixed(2) * order.quantity)}</p>
-                  <div className="flex gap-2   sm:gap-3 mt-2 sm:mt-0 sm:w-1/4 justify-start sm:justify-end">
+
+                  <div className='h-20 w-30 rounded-md overflow-hidden mr-16 border'>
+                    <img className='h-full w-full object-cover' src={order.productImage} alt="" />
+                  </div>
+                  <p className=" text-wrap sm:w-1/5">{order.customerName}</p>
+                  <p className="font-semibold  sm:w-1/5 capitalize">{order.product}</p>
+                  <p className="sm:w-1/5 px-4">{order.quantity}</p>
+                  <p className="sm:w-1/5">₹ {(order.price.toFixed(2) * order.quantity)}</p>
+                  <div className="flex gap-2   sm:gap-3 mt-2 sm:mt-0 sm:w-1/5 justify-start sm:justify-end">
                     <button
                       onClick={() => handleEditClick(order)}
                       className="bg-indigo-500/50 hover:bg-indigo-600 text-white px-3 py-1 rounded-md shadow-md transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-400"

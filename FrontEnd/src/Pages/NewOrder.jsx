@@ -9,15 +9,41 @@ async function createOrder(orderData) {
     body: JSON.stringify(orderData),
   });
 
-  if (!res.ok) throw new Error("Failed to create order");
+ if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+    throw new Error(errorData.message || "Failed to create order");
+  }
   return res.json();
 }
+
+
+async function uploadImageToCloudinary(file) {
+  const url = `https://api.cloudinary.com/v1_1/dihjrsgwg/upload`;
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", "MY_PRESET");
+
+  const response = await fetch(url, {
+    method: "POST",
+    body: formData,
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error.message || "Image upload failed");
+  }
+
+  const data = await response.json();
+  return data.secure_url; // Return the image URL
+}
+
 
 export default function NewOrder({ visible, onClose }) {
   const [formData, setFormData] = useState({
     customerName: "",
     product: "",
     quantity: 1,
+    productImage: "",
     price: "",
   });
 
@@ -32,6 +58,7 @@ export default function NewOrder({ visible, onClose }) {
         customerName: "",
         product: "",
         quantity: 1,
+        productImage: "",
         price: "",
       });
       onClose(); // Close modal on success
@@ -50,9 +77,27 @@ export default function NewOrder({ visible, onClose }) {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    mutation.mutate(formData);
+    try {
+    let imageUrl = "";
+     if (formData.productImage) {
+      imageUrl = await uploadImageToCloudinary(formData.productImage);
+    }
+    const orderPayload = {
+      
+      customerName: formData.customerName,
+      product: formData.product,
+      quantity: formData.quantity,
+      price: formData.price,
+      productImage: imageUrl,
+    };
+
+    
+    mutation.mutate(orderPayload);
+     } catch (error) {
+    alert("Image upload failed: " + error.message);
+  }
   };
 
   // Close on outside click
@@ -108,6 +153,25 @@ export default function NewOrder({ visible, onClose }) {
           className="w-full px-3 py-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
 
+        <label htmlFor="image" className="block mb-2 font-medium text-gray-800">
+  Product Image:
+</label>
+<input
+  type="file"
+  id="productImage"
+  name="productImage"
+  accept="image/*"
+  onChange={(e) =>
+    setFormData((prev) => ({
+      ...prev,
+      productImage: e.target.files[0]
+    }))
+  }
+  className="w-full px-3 py-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+/>
+
+        
+
         <label htmlFor="product" className="block mb-2 font-medium text-gray-800">
           Product Name:
         </label>
@@ -120,20 +184,49 @@ export default function NewOrder({ visible, onClose }) {
           required
           className="w-full px-3 py-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
+        
 
-        <label htmlFor="quantity" className="block mb-2 font-medium text-gray-800">
-          Quantity:
-        </label>
-        <input
-          type="number"
-          id="quantity"
-          name="quantity"
-          min="1"
-          value={formData.quantity}
-          onChange={handleChange}
-          required
-          className="w-full px-3 py-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+       <label htmlFor="quantity" className="text-sm md:text-base font-medium text-black">
+            Quantity:
+          </label>
+          <div className='flex gap-30 text-black mb-3'>
+             <input
+            type="number"
+            id="quantity"
+            name="quantity"
+            min="1"
+            value={formData.quantity || 1}
+            onChange={handleChange}
+            required
+            className="w-full p-3 border border-zinc-800 rounded-md  bg-opacity-30 text-black focus:outline-none focus:ring-2 focus:ring-white"
+          />
+             <div className="flex items-center gap-2 w-full">
+  <button
+    type="button"
+    onClick={() =>
+      setFormData(prev => ({ ...prev, quantity: Math.max(1, prev.quantity - 1) }))
+    }
+    className="px-3 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-600 transition"
+  >
+    -
+  </button>
+
+  <span className="px-4 py-2 bg-gray-800 text-white rounded-md text-center min-w-[40px]">
+    {formData.quantity}
+  </span>
+
+  <button
+    type="button"
+    onClick={() =>
+      setFormData(prev => ({ ...prev, quantity: Number(prev.quantity )+ 1 }))
+    }
+    className="px-3 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-600 transition"
+  >
+    +
+  </button>
+          </div>
+         
+          </div>
 
         <label htmlFor="price" className="block mb-2 font-medium text-gray-800">
           Price per unit:
