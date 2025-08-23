@@ -151,13 +151,13 @@ const EditOrder = ({ order, visible, onClose }) => {
             <img
               src={URL.createObjectURL(formData.newImageFile)}
               alt="New preview"
-              className="mt-2 max-h-20 rounded"
+              className="mt-2 max-h-20 rounded object-cover"
             />
           ) : formData.productImage ? (
             <img
               src={formData.productImage}
               alt="Current product"
-              className="mt-2 max-h-20 rounded"
+              className="mt-2 max-h-20 rounded object-cover"
             />
           ) : null}
 
