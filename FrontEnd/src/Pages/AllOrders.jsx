@@ -74,47 +74,46 @@ const AllOrders = () => {
           {orders.length === 0 ? (
             <p className="text-center text-gray-300">No orders found.</p>
           ) : (
-            <ul className="divide-y divide-gray-200 flex flex-col gap-3">
-              {/* Table Header */}
+            <ul className="divide-y divide-gray-200 flex flex-col gap-3 overflow-y-auto max-h-[70vh]">
+              {/* Table Header (desktop/tablet only) */}
               <div className="hidden sm:flex justify-between text-gray-400 font-semibold mb-2 px-2">
-                <p className="w-1/7">Image</p>
-                <p className="w-1/7">Customer</p>
-                <p className="w-1/7">Product</p>
-                <p className="w-1/7">Quantity</p>
-                <p className="w-1/7">Price</p>
-                <p className="w-1/7">Total</p>
-                <p className="w-1/7">Actions</p>
+                <p className="w-1/6">Image</p>
+                <p className="w-1/6">Customer</p>
+                <p className="w-1/6">Product</p>
+                <p className="w-1/6">Quantity</p>
+                <p className="w-1/6">Price</p>
+                <p className="w-1/6">Total</p>
+                <p className="w-1/6">Actions</p>
               </div>
 
               {orders.map((order) => (
                 <li
                   key={order._id}
-                  className="flex font-semibold capitalize text-zinc-500 flex-col sm:flex-row sm:justify-between sm:items-center p-3 sm:p-2 bg-opacity-30 rounded-lg"
+                  className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-3 sm:p-2 font-semibold capitalize text-zinc-500 bg-opacity-30 rounded-lg"
                 >
                   {/* Product name and quantity for mobile */}
-                  <div className="flex w-full justify-between sm:hidden sm: text-white mb-2">
-                    <span className="font-semibold gap-2 flex"><h1>Product Name:</h1>{order.product}</span>
+                  <div className="flex w-full justify-between sm:hidden text-white mb-2">
+                    <span className="font-semibold flex gap-2">Product: {order.product}</span>
                     <span className="ml-4">Qty: {order.quantity}</span>
                   </div>
 
                   {/* Product Image */}
-                  <div className="md:h-20 md:w-30 w-full  rounded-md overflow-hidden mr-16 border">
+                  <div className="md:h-20 md:w-20 h-70 w-70 md:mr-20 mx-auto rounded-md overflow-hidden border mb-2 sm:mb-0">
                     <img className="h-full w-full object-cover" src={order.productImage} alt="" />
                   </div>
 
                   {/* Customer Name */}
-                  <p className="text-wrap sm:w-1/5"><span className='md:hidden' >Customer Name:  </span>{order.customerName}</p>
-
-                  {/* Product Name and Quantity for desktop */}
-                  <p className="font-semibold sm:w-1/5 capitalize hidden sm:block">{order.product}</p>
-                  <p className="sm:w-1/5 px-4 hidden sm:block">{order.quantity}</p>
-                   <p className="sm:w-1/5"><span className='md:hidden'>Price :</span> ₹ {order.price}</p>
-
+                  <p className="text-wrap  md:w-[14.2%]"><span className="sm:hidden">Customer: </span>{order.customerName}</p>
+                  {/* Product Name on desktop */}
+                  <p className="font-semibold  md:w-[14.2%] capitalize hidden sm:block">{order.product}</p>
+                  {/* Quantity on desktop */}
+                  <p className=" md:w-[14.2%] px-4 hidden sm:block">{order.quantity}</p>
                   {/* Price */}
-                  <p className="sm:w-1/5"> <span className='md:hidden'>Total:</span> ₹ {(order.price.toFixed(2) * order.quantity)}</p>
-
+                  <p className=" md:w-[14.2%]"><span className="sm:hidden">Price: </span>₹ {order.price}</p>
+                  {/* Total */}
+                  <p className=" md:w-[14.2%]"><span className="sm:hidden">Total: </span>₹ {(order.price * order.quantity).toFixed(2)}</p>
                   {/* Actions */}
-                  <div className="flex gap-2 sm:gap-3 mt-2 sm:mt-0 sm:w-1/5 justify-start sm:justify-end">
+                  <div className="flex gap-2 sm:gap-3 mt-2 sm:mt-0  md:w-[14.2%] justify-start sm:justify-end">
                     <button
                       onClick={() => handleEditClick(order)}
                       className="bg-indigo-500/50 hover:bg-indigo-600 text-white px-3 py-1 rounded-md shadow-md transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-400"
