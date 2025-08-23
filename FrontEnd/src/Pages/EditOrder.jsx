@@ -2,7 +2,7 @@ import React, { useEffect, useState, Fragment } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 async function updateOrder(order) {
-  const res = await fetch(`https://crud-task-15do.onrender.com/orders/${order.id}`, {  
+  const res = await fetch(`https://crud-task-15do.onrender.com/orders/${order.id}`, {    
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(order),
